@@ -5,21 +5,11 @@ using System.Collections.Generic;
 
 public class VNFPSTarget : TargetRules
 {
-	public VNFPSTarget(TargetInfo Target)
+	public VNFPSTarget(TargetInfo Target): base(Target)
 	{
 		Type = TargetType.Game;
+		DefaultBuildSettings = BuildSettingsVersion.V2;
+		ExtraModuleNames.Add("VNFPS");
 	}
 
-	//
-	// TargetRules interface.
-	//
-
-	public override void SetupBinaries(
-		TargetInfo Target,
-		ref List<UEBuildBinaryConfiguration> OutBuildBinaryConfigurations,
-		ref List<string> OutExtraModuleNames
-		)
-	{
-		OutExtraModuleNames.AddRange( new string[] { "VNFPS" } );
-	}
 }

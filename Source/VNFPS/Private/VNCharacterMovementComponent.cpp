@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "VNFPS.h"
 #include "VNCharacterMovementComponent.h"
+#include "VNBasePaperCharacter.h"
 
 float UVNCharacterMovementComponent::GetMaxSpeed() const
 {

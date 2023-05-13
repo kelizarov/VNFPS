@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "VNFPS.h"
 #include "VNWeaponInstant.h"
 
 AVNWeaponInstant::AVNWeaponInstant(const class FObjectInitializer& ObjectInitializer)

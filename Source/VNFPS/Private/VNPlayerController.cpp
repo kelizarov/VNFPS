@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "VNFPS.h"
 #include "VNPlayerController.h"
 #include "VNPlayerCameraManager.h"
 
@@ -68,7 +67,6 @@ void AVNPlayerController::TurnRate(float Val)
 				CameraSpeed += AccelerationFriction * FMath::Abs(Val) * GetWorld()->GetDeltaSeconds();
 			else
 				CameraSpeed = BaseTurnRate * AccelerationFactor;
-
 		}
 		else
 		{

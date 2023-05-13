@@ -1,16 +1,19 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "VNFPS.h"
+#include "VNBasePaperCharacter.h"
 #include "PaperFlipbook.h"
 #include "VNCharacterMovementComponent.h"
-#include "VNBasePaperCharacter.h"
+#include "GameFramework/Character.h"
+#include <Kismet/GameplayStatics.h>
+#include "Components/CapsuleComponent.h"
+#include "PaperFlipbookComponent.h"
 
 AVNBasePaperCharacter::AVNBasePaperCharacter(const class FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer.SetDefaultSubobjectClass<UVNCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
 
 	MySprite = GetSprite();
-	MySprite->bAbsoluteRotation = true;
+	MySprite->SetUsingAbsoluteRotation(true);
 	MySprite->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 
@@ -175,18 +178,18 @@ void AVNBasePaperCharacter::PlayAnimation(TMap<ECharacterDirection, UPaperFlipbo
 	if (!AnimationToPlay || !AnimationToPlay->Contains(CurrentDirection))
 		return;
 	CurrentAnimation = AnimationToPlay;
-	class UPaperFlipbook* Sprite = CurrentAnimation->FindRef(CurrentDirection);
-	if (Sprite == nullptr)
+	UPaperFlipbook* SpriteToPlay = CurrentAnimation->FindRef(CurrentDirection);
+	if (SpriteToPlay == nullptr)
 		return;
 	if (MySprite->bHiddenInGame)
 		MySprite->SetHiddenInGame(false);
 	MySprite->SetLooping(bIsLooping);
-	MySprite->SetFlipbook(Sprite);
+	MySprite->SetFlipbook(SpriteToPlay);
 	MySprite->SetPlaybackPosition(PlaybackPosition, false);
 	if (!bIsLooping)
 	{
 		GetWorldTimerManager().ClearTimer(TimerHandle_FinishedAnimation);
-		GetWorldTimerManager().SetTimer(TimerHandle_FinishedAnimation, this, &AVNBasePaperCharacter::OnFinishedAnimation, Sprite->GetTotalDuration(), false);
+		GetWorldTimerManager().SetTimer(TimerHandle_FinishedAnimation, this, &AVNBasePaperCharacter::OnFinishedAnimation, SpriteToPlay->GetTotalDuration(), false);
 	}
 	MySprite->Play();
 }
@@ -319,9 +322,8 @@ void AVNBasePaperCharacter::OnDeath(float KillingDamage, FDamageEvent const& Dam
 
 	bIsDying = true;
 
-	class UCapsuleComponent* CapsuleComponent = GetCapsuleComponent();
-	CapsuleComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	CapsuleComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECR_Ignore);
 }
 
 void AVNBasePaperCharacter::PlayHit(float DamageTaken, struct FDamageEvent const& DamageEvent, APawn* PawnInstigator, AActor* DamageCauser, bool bKilled)

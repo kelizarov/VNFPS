@@ -1,9 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "VNFPS.h"
-#include "VNWeaponProjectile.h"
 #include "VNProjectile.h"
-
+#include "VNWeaponProjectile.h"
+#include "Components/SphereComponent.h"
+#include "GameFramework/ProjectileMovementComponent.h"
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values
 AVNProjectile::AVNProjectile(const class FObjectInitializer& ObjectInitializer)
@@ -42,7 +43,7 @@ void AVNProjectile::PostInitializeComponents()
 	Super::PostInitializeComponents();
 
 	MoveComp->OnProjectileStop.AddDynamic(this, &AVNProjectile::OnImpact);
-	CollisionComp->MoveIgnoreActors.Add(Instigator);
+	CollisionComp->MoveIgnoreActors.Add(GetInstigator());
 	AVNWeaponProjectile* OwnerWeapon = Cast<AVNWeaponProjectile>(GetOwner());
 	if (OwnerWeapon)
 	{
@@ -77,7 +78,6 @@ void AVNProjectile::Explode(const FHitResult& Impact)
 	if (RadialDamage > 0.f && RadialRadius > 0.f)
 	{
 		UGameplayStatics::ApplyRadialDamage(this, RadialDamage, NudgeImpactLocation, RadialRadius, DamageType, TArray<AActor*>(), this, MyController.Get());
-
 	}
 
 	bExploded = true;

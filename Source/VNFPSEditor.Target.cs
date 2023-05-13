@@ -5,21 +5,12 @@ using System.Collections.Generic;
 
 public class VNFPSEditorTarget : TargetRules
 {
-	public VNFPSEditorTarget(TargetInfo Target)
+	public VNFPSEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
+		DefaultBuildSettings = BuildSettingsVersion.V2;
+		ExtraModuleNames.Add("VNFPS");
 	}
 
-	//
-	// TargetRules interface.
-	//
 
-	public override void SetupBinaries(
-		TargetInfo Target,
-		ref List<UEBuildBinaryConfiguration> OutBuildBinaryConfigurations,
-		ref List<string> OutExtraModuleNames
-		)
-	{
-		OutExtraModuleNames.AddRange( new string[] { "VNFPS" } );
-	}
 }

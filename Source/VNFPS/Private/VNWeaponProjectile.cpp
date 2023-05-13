@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "VNFPS.h"
 #include "VNWeaponProjectile.h"
+#include <Kismet/GameplayStatics.h>
 
 
 void AVNWeaponProjectile::FireWeapon()
@@ -29,7 +29,7 @@ void AVNWeaponProjectile::SpawnProjectile(const FVector& Origin, const FVector& 
 	AVNProjectile* Projectile = Cast<AVNProjectile>(UGameplayStatics::BeginDeferredActorSpawnFromClass(this, ProjectileActor, SpawnTM));
 	if (Projectile)
 	{
-		Projectile->Instigator = Instigator;
+		Projectile->SetInstigator(GetInstigator());
 		Projectile->SetOwner(this);
 		Projectile->InitVelocity(ShootDir);
 		

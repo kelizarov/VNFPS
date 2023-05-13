@@ -5,6 +5,7 @@
 #include <PaperCharacter.h>
 #include <PaperFlipbookComponent.h>
 #include "VNTypes.h"
+#include "Sound/SoundCue.h"
 #include "VNBasePaperCharacter.generated.h"
 
 /**

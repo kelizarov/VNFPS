@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "VNFPS.h"
 #include "VNPlayerCameraManager.h"
 #include "VNPlayerPaperCharacter.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AVNPlayerCameraManager::AVNPlayerCameraManager(const class FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -25,7 +25,7 @@ void AVNPlayerCameraManager::BeginPlay()
 
 void AVNPlayerCameraManager::UpdateCamera(float DeltaTime)
 {
-	AVNPlayerPaperCharacter* MyPawn = PCOwner ? Cast<AVNPlayerPaperCharacter>(PCOwner->GetPawn()) : nullptr;
+	AVNPlayerPaperCharacter* MyPawn = Cast<AVNPlayerPaperCharacter>(PCOwner->GetPawn());
 	if (MyPawn)
 	{
 		const float TargetFOV = MyPawn->IsTargeting() ? MyPawn->GetTargetingFOV() : MyPawn->GetNormalFOV();

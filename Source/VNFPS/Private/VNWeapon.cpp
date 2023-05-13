@@ -1,11 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "VNFPS.h"
-#include "PaperFlipbookComponent.h"
 #include "VNWeapon.h"
+#include "PaperFlipbookComponent.h"
 #include "VNPlayerPaperCharacter.h"
 #include "VNPlayerController.h"
-
 
 AVNWeapon::AVNWeapon(const class FObjectInitializer& ObjectInitializer)
 {
@@ -47,7 +45,7 @@ void AVNWeapon::SetOwningPawn(class AVNPlayerPaperCharacter* NewOwner)
 {
 	if (MyPawn != NewOwner)
 	{
-		Instigator = NewOwner;
+		SetInstigator(NewOwner);
 		MyPawn = NewOwner;
 		SetOwner(NewOwner);
 	}
@@ -137,7 +135,7 @@ bool AVNWeapon::CanFire() const
 
 FVector AVNWeapon::GetAdjustedAim() const
 {
-	const AVNPlayerController* PC = Instigator ? Cast<AVNPlayerController>(Instigator->Controller) : nullptr;
+	const AVNPlayerController* PC = GetInstigator() ? Cast<AVNPlayerController>(GetInstigator()->Controller) : nullptr;
 	FVector FinalAim = FVector::ZeroVector;
 
 	if (PC)
@@ -148,9 +146,9 @@ FVector AVNWeapon::GetAdjustedAim() const
 
 		FinalAim = CamRot.Vector();
 	}
-	else if (Instigator)
+	else if (GetInstigator())
 	{
-		FinalAim = Instigator->GetBaseAimRotation().Vector();
+		FinalAim = GetInstigator()->GetBaseAimRotation().Vector();
 	}
 
 	return FinalAim;
@@ -166,7 +164,7 @@ FVector AVNWeapon::GetCameraDamageStartLocation(const FVector& AimDir) const
 		FRotator DummyRot;
 		PC->GetPlayerViewPoint(OutStartTrace, DummyRot);
 
-		OutStartTrace = OutStartTrace + AimDir * (FVector::DotProduct(Instigator->GetActorLocation() - OutStartTrace, AimDir));
+		OutStartTrace = OutStartTrace + AimDir * (FVector::DotProduct(GetInstigator()->GetActorLocation() - OutStartTrace, AimDir));
 	}
 
 	return OutStartTrace;
@@ -187,13 +185,13 @@ FVector AVNWeapon::GetMuzzleLocation() const
 
 FHitResult AVNWeapon::WeaponTrace(const FVector& TraceFrom, const FVector& TraceTo) const
 {
-	FCollisionQueryParams TraceParams(TEXT("WeaponTrace"), true, Instigator);
-	TraceParams.bTraceAsyncScene = true;
+	FCollisionQueryParams TraceParams(TEXT("WeaponTrace"), true, GetInstigator());
+	// TraceParams.bTraceAsyncScene = true;
 	TraceParams.bReturnPhysicalMaterial = true;
 
 	FHitResult Hit(ForceInit);
 	GetWorld()->LineTraceSingleByChannel(Hit, TraceFrom, TraceTo, COLLISION_WEAPON, TraceParams);
-	//DrawDebugLine(GetWorld(), TraceFrom, TraceTo, FColor::Red, false, 1.0f);
+	// DrawDebugLine(GetWorld(), TraceFrom, TraceTo, FColor::Red, false, 1.0f);
 
 	return Hit;
 }

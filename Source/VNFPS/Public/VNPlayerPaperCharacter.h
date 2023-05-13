@@ -4,12 +4,8 @@
 
 #include "VNBasePaperCharacter.h"
 #include "PaperFlipbookComponent.h"
+#include "Camera/CameraComponent.h"
 #include "VNPlayerPaperCharacter.generated.h"
-
-/**
- * 
- */
-
 
 UCLASS()
 class VNFPS_API AVNPlayerPaperCharacter : public AVNBasePaperCharacter
@@ -19,9 +15,13 @@ class VNFPS_API AVNPlayerPaperCharacter : public AVNBasePaperCharacter
 	AVNPlayerPaperCharacter(const class FObjectInitializer& ObjectInitializer);
 
 	virtual void Tick(float DeltaTime) override;
+
 	virtual void BeginPlay() override;
+
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
 	virtual void PawnClientRestart() override;
 
 	UPROPERTY(VisibleAnywhere, Category = "Weapon")
@@ -49,40 +49,58 @@ public:
 
 	/* Crouching & Sliding */
 	bool bIsSliding;
+
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 		void OnCrouchToggle();
+
 	UFUNCTION(BlueprintCallable, Category = "DEBUG | Movement")
 		void SetSliding(bool bNewSliding);
+
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 		bool IsSliding() const;
+
 	UPROPERTY(EditDefaultsOnly, Category = Movement)
 		float SlideSpeedModifier;
 
 	/* Sprinting */
 	void OnStartSprinting();
+
 	void OnStartSprintingToggle();
+
 	void OnStopSprinting();
+
 	virtual void SetSprinting(bool bNewSprinting, bool bToggle) override;
 
 	/* Jumping & Double Jumping */
 	void OnJump();
+
 	void DoubleJump();
+
 	bool bIsJumping;
+
 	bool bCanDoubleJump;
+
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 		bool IsInitiatedJump() const;
+
 	void SetIsJumping(bool bNewJumping);
+
 	virtual void OnMovementModeChanged(EMovementMode PrevMovementMode, uint8 PreviousCustomMode = 0) override;
 
 	/* Targeting */
 	void OnStartTargeting();
+
 	void OnStopTargeting();
+
 	UPROPERTY(EditDefaultsOnly, Category = "Targeting")
 		float NormalFOV;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Targeting")
 		float TargetingFOV;
+
 	UFUNCTION(BlueprintCallable, Category = "Targeting")
 		float GetNormalFOV() const { return NormalFOV; }
+
 	UFUNCTION(BlueprintCallable, Category = "Targeting")
 		float GetTargetingFOV() const { return TargetingFOV; }
 

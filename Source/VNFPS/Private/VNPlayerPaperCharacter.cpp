@@ -1,9 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "VNFPS.h"
+#include "VNPlayerPaperCharacter.h"
 #include "VNWeapon.h"
 #include "VNPlayerController.h"
-#include "VNPlayerPaperCharacter.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AVNPlayerPaperCharacter::AVNPlayerPaperCharacter(const class FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -554,7 +555,6 @@ void AVNPlayerPaperCharacter::OnEquipDoubleBarrel()
 
 void AVNPlayerPaperCharacter::OnEquipGrenadeLauncher()
 {
-	UE_LOG(VNLog, Warning, TEXT("Equipping Launcher"));
 	if (Inventory.Num() > 0)
 	{
 		for (int32 i = 0; i < Inventory.Num(); i++)

@@ -4,7 +4,7 @@ using UnrealBuildTool;
 
 public class VNFPS : ModuleRules
 {
-	public VNFPS(TargetInfo Target)
+	public VNFPS(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Paper2D" });
 
