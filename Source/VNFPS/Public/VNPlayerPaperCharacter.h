@@ -2,193 +2,191 @@
 
 #pragma once
 
-#include "VNBasePaperCharacter.h"
-#include "PaperFlipbookComponent.h"
 #include "Camera/CameraComponent.h"
+#include "PaperFlipbookComponent.h"
+#include "VNBasePaperCharacter.h"
 #include "VNPlayerPaperCharacter.generated.h"
 
 UCLASS()
-class VNFPS_API AVNPlayerPaperCharacter : public AVNBasePaperCharacter
-{
-	GENERATED_BODY()
-	
-	AVNPlayerPaperCharacter(const class FObjectInitializer& ObjectInitializer);
+class VNFPS_API AVNPlayerPaperCharacter : public AVNBasePaperCharacter {
+  GENERATED_BODY()
 
-	virtual void Tick(float DeltaTime) override;
+  AVNPlayerPaperCharacter(const class FObjectInitializer &ObjectInitializer);
 
-	virtual void BeginPlay() override;
+  virtual void Tick(float DeltaTime) override;
 
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+  virtual void BeginPlay() override;
 
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+  virtual void SetupPlayerInputComponent(
+      class UInputComponent *PlayerInputComponent) override;
 
-	virtual void PawnClientRestart() override;
+  virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-	UPROPERTY(VisibleAnywhere, Category = "Weapon")
-		UPaperFlipbookComponent* WeaponSprite;
+  virtual void PawnClientRestart() override;
+
+  UPROPERTY(VisibleAnywhere, Category = "Weapon")
+  UPaperFlipbookComponent *WeaponSprite;
 
 private:
-	UPROPERTY(VisibleAnywhere, Category = "Camera")
-		UCameraComponent* CameraComp;
+  UPROPERTY(VisibleAnywhere, Category = "Camera")
+  UCameraComponent *CameraComp;
 
 public:
-	FORCEINLINE UCameraComponent* GetCamera() const
-	{
-		return CameraComp;
-	}
+  FORCEINLINE UCameraComponent *GetCamera() const { return CameraComp; }
 
-	FORCEINLINE UPaperFlipbookComponent* GetWeaponSprite() const
-	{
-		return WeaponSprite;
-	}
-	
-	/* Movement */
-	virtual void MoveForward(float Val);
+  FORCEINLINE UPaperFlipbookComponent *GetWeaponSprite() const {
+    return WeaponSprite;
+  }
 
-	virtual void MoveRight(float Val);
+  /* Movement */
+  virtual void MoveForward(float Val);
 
-	/* Crouching & Sliding */
-	bool bIsSliding;
+  virtual void MoveRight(float Val);
 
-	UFUNCTION(BlueprintCallable, Category = "Movement")
-		void OnCrouchToggle();
+  /* Crouching & Sliding */
+  bool bIsSliding;
 
-	UFUNCTION(BlueprintCallable, Category = "DEBUG | Movement")
-		void SetSliding(bool bNewSliding);
+  UFUNCTION(BlueprintCallable, Category = "Movement")
+  void OnCrouchToggle();
 
-	UFUNCTION(BlueprintCallable, Category = "Movement")
-		bool IsSliding() const;
+  UFUNCTION(BlueprintCallable, Category = "DEBUG | Movement")
+  void SetSliding(bool bNewSliding);
 
-	UPROPERTY(EditDefaultsOnly, Category = Movement)
-		float SlideSpeedModifier;
+  UFUNCTION(BlueprintCallable, Category = "Movement")
+  bool IsSliding() const;
 
-	/* Sprinting */
-	void OnStartSprinting();
+  UPROPERTY(EditDefaultsOnly, Category = Movement)
+  float SlideSpeedModifier;
 
-	void OnStartSprintingToggle();
+  /* Sprinting */
+  void OnStartSprinting();
 
-	void OnStopSprinting();
+  void OnStartSprintingToggle();
 
-	virtual void SetSprinting(bool bNewSprinting, bool bToggle) override;
+  void OnStopSprinting();
 
-	/* Jumping & Double Jumping */
-	void OnJump();
+  virtual void SetSprinting(bool bNewSprinting, bool bToggle) override;
 
-	void DoubleJump();
+  /* Jumping & Double Jumping */
+  void OnJump();
 
-	bool bIsJumping;
+  void DoubleJump();
 
-	bool bCanDoubleJump;
+  bool bIsJumping;
 
-	UFUNCTION(BlueprintCallable, Category = "Movement")
-		bool IsInitiatedJump() const;
+  bool bCanDoubleJump;
 
-	void SetIsJumping(bool bNewJumping);
+  UFUNCTION(BlueprintCallable, Category = "Movement")
+  bool IsInitiatedJump() const;
 
-	virtual void OnMovementModeChanged(EMovementMode PrevMovementMode, uint8 PreviousCustomMode = 0) override;
+  void SetIsJumping(bool bNewJumping);
 
-	/* Targeting */
-	void OnStartTargeting();
+  virtual void OnMovementModeChanged(EMovementMode PrevMovementMode,
+                                     uint8 PreviousCustomMode = 0) override;
 
-	void OnStopTargeting();
+  /* Targeting */
+  void OnStartTargeting();
 
-	UPROPERTY(EditDefaultsOnly, Category = "Targeting")
-		float NormalFOV;
+  void OnStopTargeting();
 
-	UPROPERTY(EditDefaultsOnly, Category = "Targeting")
-		float TargetingFOV;
+  UPROPERTY(EditDefaultsOnly, Category = "Targeting")
+  float NormalFOV;
 
-	UFUNCTION(BlueprintCallable, Category = "Targeting")
-		float GetNormalFOV() const { return NormalFOV; }
+  UPROPERTY(EditDefaultsOnly, Category = "Targeting")
+  float TargetingFOV;
 
-	UFUNCTION(BlueprintCallable, Category = "Targeting")
-		float GetTargetingFOV() const { return TargetingFOV; }
+  UFUNCTION(BlueprintCallable, Category = "Targeting")
+  float GetNormalFOV() const { return NormalFOV; }
 
-	/* Armor */
-	float Armor;
+  UFUNCTION(BlueprintCallable, Category = "Targeting")
+  float GetTargetingFOV() const { return TargetingFOV; }
 
-	UFUNCTION(BlueprintCallable, Category = "PlayerCondition")
-		float GetArmor() const { return Armor; }
+  /* Armor */
+  float Armor;
 
-	UFUNCTION(BlueprintCallable, Category = "PlayerCondition")
-		float GetMaxArmor() const { return GetClass()->GetDefaultObject<AVNPlayerPaperCharacter>()->Armor; }
+  UFUNCTION(BlueprintCallable, Category = "PlayerCondition")
+  float GetArmor() const { return Armor; }
 
-	UFUNCTION(BlueprintCallable, Category = "PlayerCondition")
-		bool HasArmor() const { return Armor > 0; }
+  UFUNCTION(BlueprintCallable, Category = "PlayerCondition")
+  float GetMaxArmor() const {
+    return GetClass()->GetDefaultObject<AVNPlayerPaperCharacter>()->Armor;
+  }
 
-	/* Weapon & Inventory */
-	bool bWantsToFire;
+  UFUNCTION(BlueprintCallable, Category = "PlayerCondition")
+  bool HasArmor() const { return Armor > 0; }
 
-	void OnReload();
+  /* Weapon & Inventory */
+  bool bWantsToFire;
 
-	void OnStartFire();
+  void OnReload();
 
-	void OnStopFire();
+  void OnStartFire();
 
-	void StartWeaponFire();
+  void OnStopFire();
 
-	void StopWeaponFire();
+  void StartWeaponFire();
 
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-		TMap<EWeaponAmmoType, int32> InventoryAmmo;
+  void StopWeaponFire();
+
+  UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+  TMap<EWeaponAmmoType, int32> InventoryAmmo;
 
 public:
+  UFUNCTION(BlueprintCallable, Category = "Weapon")
+  int32 GetAmmoByType(EWeaponAmmoType AmmoType) const;
 
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-		int32 GetAmmoByType(EWeaponAmmoType AmmoType) const;
+  UFUNCTION(BlueprintCallable, Category = "Weapon")
+  int32 GetMaxAmmoByType(EWeaponAmmoType AmmoType) const;
 
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-		int32 GetMaxAmmoByType(EWeaponAmmoType AmmoType) const;
+  UFUNCTION(BlueprintCallable, Category = "Weapon")
+  AVNWeapon *GetCurrentWeapon() const;
 
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-		AVNWeapon* GetCurrentWeapon() const;
+  bool CanFire() const;
 
-	bool CanFire() const;
+  bool CanReload() const;
 
-	bool CanReload() const;
+  UFUNCTION(BlueprintCallable, Category = "Weapon")
+  bool IsFiring() const;
 
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-		bool IsFiring() const;
+  TArray<AVNWeapon *> Inventory;
 
-	TArray<AVNWeapon*> Inventory;
+  UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+  TArray<TSubclassOf<class AVNWeapon>> DefaultInventory;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-		TArray<TSubclassOf<class AVNWeapon>> DefaultInventory;
+  void SetCurrentWeapon(class AVNWeapon *NewWeapon,
+                        class AVNWeapon *LastWeapon = nullptr);
 
-	void SetCurrentWeapon(class AVNWeapon* NewWeapon, class AVNWeapon* LastWeapon = nullptr);
+  void EquipWeapon(AVNWeapon *Weapon);
 
-	void EquipWeapon(AVNWeapon* Weapon);
+  void AddWeapon(class AVNWeapon *Weapon);
 
-	void AddWeapon(class AVNWeapon* Weapon);
+  void DestroyInventory();
 
-	void DestroyInventory();
+  void RemoveWeapon(class AVNWeapon *Weapon, bool bDestroy);
 
-	void RemoveWeapon(class AVNWeapon* Weapon, bool bDestroy);
+  class AVNWeapon *CurrentWeapon;
 
-	class AVNWeapon* CurrentWeapon;
+  class AVNWeapon *PreviousWeapon;
 
-	class AVNWeapon* PreviousWeapon;
+  void SpawnDefaultInventory();
 
-	void SpawnDefaultInventory();
+  void OnEquipPistol();
 
-	void OnEquipPistol();
+  void OnEquipShotgun();
 
-	void OnEquipShotgun();
+  void OnEquipRifle();
 
-	void OnEquipRifle();
+  void OnEquipDoubleBarrel();
 
-	void OnEquipDoubleBarrel();
+  void OnEquipGrenadeLauncher();
 
-	void OnEquipGrenadeLauncher();
+  void OnEquipPlasmaRifle();
 
-	void OnEquipPlasmaRifle();
+  void OnEquipFirst();
 
-	void OnEquipFirst();
+  void OnEquipSecond();
 
-	void OnEquipSecond();
+  void OnEquipThird();
 
-	void OnEquipThird();
-
-	void OnEquipFourth();
-	
+  void OnEquipFourth();
 };

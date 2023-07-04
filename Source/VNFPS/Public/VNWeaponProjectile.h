@@ -3,28 +3,22 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "VNWeapon.h"
 #include "VNProjectile.h"
+#include "VNWeapon.h"
 #include "VNWeaponProjectile.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
-class VNFPS_API AVNWeaponProjectile : public AVNWeapon
-{
-	GENERATED_BODY()
+class VNFPS_API AVNWeaponProjectile : public AVNWeapon {
+  GENERATED_BODY()
 
-	virtual void FireWeapon() override;
+  virtual void FireWeapon() override;
 
-	void SpawnProjectile(const FVector& Origin, const FVector& ShootDir);
+  void SpawnProjectile(const FVector &Origin, const FVector &ShootDir);
 
 public:
-
-	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
-		TSubclassOf<AVNProjectile> ProjectileActor;
-
-
-	
-	
+  UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+  TSubclassOf<AVNProjectile> ProjectileActor;
 };

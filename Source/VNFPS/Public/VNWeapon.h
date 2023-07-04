@@ -4,238 +4,218 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "VNTypes.h"
-#include "VNPlayerPaperCharacter.h"
 #include "PaperFlipbook.h"
+#include "VNPlayerPaperCharacter.h"
+#include "VNTypes.h"
 #include "VNWeapon.generated.h"
 
 UENUM()
-enum class EWeaponState : uint8
-{
-	Idle,
-	Firing,
-	Equipping,
-	Reloading
-};
+enum class EWeaponState : uint8 { Idle, Firing, Equipping, Reloading };
 
 UCLASS()
-class VNFPS_API AVNWeapon : public AActor
-{
-	GENERATED_BODY()
+class VNFPS_API AVNWeapon : public AActor {
+  GENERATED_BODY()
 
-	virtual void PostInitializeComponents() override;
+  virtual void PostInitializeComponents() override;
 
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+  virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-	float GetEquipStartedTime() const;
+  float GetEquipStartedTime() const;
 
-	float GetEquipDuration() const;
+  float GetEquipDuration() const;
 
-	float EquipStartedTime;
+  float EquipStartedTime;
 
-	float EquipDuration;
+  float EquipDuration;
 
-	bool bIsEquipped;
+  bool bIsEquipped;
 
-	bool bPendingEquip;
+  bool bPendingEquip;
 
-	FTimerHandle TimerHandle_HandleFiring;
+  FTimerHandle TimerHandle_HandleFiring;
 
-	FTimerHandle TimerHandle_EquipFinished;
+  FTimerHandle TimerHandle_EquipFinished;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-		float ShotsPerMinute;
+  UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+  float ShotsPerMinute;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-		bool bLoadPerBullet;
-	
-public:	
-	// Sets default values for this actor's properties
-	AVNWeapon(const class FObjectInitializer& ObjectInitializer);
-	
-
-protected:
-
-	class AVNPlayerPaperCharacter* MyPawn;
-	
-	/* Animation */
-
-	UPROPERTY(EditDefaultsOnly, Category = "Animation")
-		UPaperFlipbook* IdleAnimation;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Animation")
-		UPaperFlipbook* FiringAnimation;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Animation")
-		UPaperFlipbook* EquippingAnimation;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Animation")
-		UPaperFlipbook* ReloadAnimation;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Animation")
-		UPaperFlipbook* SprintAnimation;
-
-	float PlayAnimation(UPaperFlipbook* AnimationToPlay, bool bIsLooping = false, float PlaybackPosition = 0.0f);
-
-	void StopAnimation(UPaperFlipbook* Animation);
-
-	bool bIsPlayingFiringAnimation;
-
-	void SimulateWeaponFire();
-
-	void StopSimulatingWeaponFire();
-
-	FTimerHandle TimerHandle_StopSimulatingFire;
-
-	/* Equipping && Inventory */
-
-	virtual void OnEquipFinished();
-
-	bool IsEquipped() const;
+  UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+  bool bLoadPerBullet;
 
 public:
-
-	virtual void OnUnEquip();
-
-	void OnEquip(bool bPlayAnimation = false);
-
-	void SetOwningPawn(class AVNPlayerPaperCharacter* NewOwner);
-
-	UFUNCTION(BlueprintCallable, Category = Weapon)
-		class AVNPlayerPaperCharacter* GetPawnOwner() const;
-
-	virtual void OnEnterInventory(class AVNPlayerPaperCharacter* NewOwner);
-
-	virtual void OnLeaveInventory();
-
-	/* Firing && Reloading*/
-
-public:
-
-	void StartFire();
-
-	void StopFire();
-
-	EWeaponState GetCurrentState() const;
+  // Sets default values for this actor's properties
+  AVNWeapon(const class FObjectInitializer &ObjectInitializer);
 
 protected:
+  class AVNPlayerPaperCharacter *MyPawn;
 
-	bool CanFire() const;
+  /* Animation */
 
-	FVector GetAdjustedAim() const;
+  UPROPERTY(EditDefaultsOnly, Category = "Animation")
+  UPaperFlipbook *IdleAnimation;
 
-	FVector GetCameraDamageStartLocation(const FVector& AimDir) const;
+  UPROPERTY(EditDefaultsOnly, Category = "Animation")
+  UPaperFlipbook *FiringAnimation;
 
-	FVector GetMuzzleLocation() const;
+  UPROPERTY(EditDefaultsOnly, Category = "Animation")
+  UPaperFlipbook *EquippingAnimation;
 
-	FHitResult WeaponTrace(const FVector& TraceFrom, const FVector& TraceTo) const;
+  UPROPERTY(EditDefaultsOnly, Category = "Animation")
+  UPaperFlipbook *ReloadAnimation;
 
-	virtual void FireWeapon() PURE_VIRTUAL(VNWeapon::FireWeapon, );
+  UPROPERTY(EditDefaultsOnly, Category = "Animation")
+  UPaperFlipbook *SprintAnimation;
+
+  float PlayAnimation(UPaperFlipbook *AnimationToPlay, bool bIsLooping = false,
+                      float PlaybackPosition = 0.0f);
+
+  void StopAnimation(UPaperFlipbook *Animation);
+
+  bool bIsPlayingFiringAnimation;
+
+  void SimulateWeaponFire();
+
+  void StopSimulatingWeaponFire();
+
+  FTimerHandle TimerHandle_StopSimulatingFire;
+
+  /* Equipping && Inventory */
+
+  virtual void OnEquipFinished();
+
+  bool IsEquipped() const;
+
+public:
+  virtual void OnUnEquip();
+
+  void OnEquip(bool bPlayAnimation = false);
+
+  void SetOwningPawn(class AVNPlayerPaperCharacter *NewOwner);
+
+  UFUNCTION(BlueprintCallable, Category = Weapon)
+  class AVNPlayerPaperCharacter *GetPawnOwner() const;
+
+  virtual void OnEnterInventory(class AVNPlayerPaperCharacter *NewOwner);
+
+  virtual void OnLeaveInventory();
+
+  /* Firing && Reloading*/
+
+public:
+  void StartFire();
+
+  void StopFire();
+
+  EWeaponState GetCurrentState() const;
+
+protected:
+  bool CanFire() const;
+
+  FVector GetAdjustedAim() const;
+
+  FVector GetCameraDamageStartLocation(const FVector &AimDir) const;
+
+  FVector GetMuzzleLocation() const;
+
+  FHitResult WeaponTrace(const FVector &TraceFrom,
+                         const FVector &TraceTo) const;
+
+  virtual void FireWeapon() PURE_VIRTUAL(VNWeapon::FireWeapon, );
 
 private:
+  UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+  bool bCanRefire;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	bool bCanRefire;
+  void SetWeaponState(EWeaponState NewState);
 
-	void SetWeaponState(EWeaponState NewState);
+  void DetermineWeaponState();
 
-	void DetermineWeaponState();
+  virtual void HandleFiring();
 
-	virtual void HandleFiring();
+  void OnBurstStarted();
 
-	void OnBurstStarted();
+  void OnBurstFinished();
 
-	void OnBurstFinished();
+  bool bWantsToFire;
 
-	bool bWantsToFire;
+  EWeaponState CurrentState;
 
-	EWeaponState CurrentState;
+  bool bRefiring;
 
-	bool bRefiring;
+  float LastFireTime;
 
-	float LastFireTime;
+  float TimeBetweenShots;
 
-	float TimeBetweenShots;
-
-	UPROPERTY(EditDefaultsOnly)
-		int32 NmbOfShots;
+  UPROPERTY(EditDefaultsOnly)
+  int32 NmbOfShots;
 
 private:
-	
-	FTimerHandle TimerHandle_ReloadWeapon;
+  FTimerHandle TimerHandle_ReloadWeapon;
 
-	FTimerHandle TimerHandle_StopReload;
+  FTimerHandle TimerHandle_StopReload;
 
-	FTimerHandle TimerHandle_LoadPerBullet;
+  FTimerHandle TimerHandle_LoadPerBullet;
 
 protected:
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Animation")
-		float NoAnimReloadDuration;
+  UPROPERTY(EditDefaultsOnly, Category = "Animation")
+  float NoAnimReloadDuration;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Animation")
-		float NoAnimEquipDuration;
+  UPROPERTY(EditDefaultsOnly, Category = "Animation")
+  float NoAnimEquipDuration;
 
-	float ReloadDuration;
+  float ReloadDuration;
 
-	bool bPendingReload;
+  bool bPendingReload;
 
-	void UseAmmo();
+  void UseAmmo();
 
-	int32 CurrentAmmo;
+  int32 CurrentAmmo;
 
-	int32 CurrentAmmoInClip;
+  int32 CurrentAmmoInClip;
 
-	UPROPERTY(EditDefaultsOnly)
-		int32 MaxAmmoPerClip;
+  UPROPERTY(EditDefaultsOnly)
+  int32 MaxAmmoPerClip;
 
-	virtual void ReloadWeapon();
-	
-	bool CanReload() const;
+  virtual void ReloadWeapon();
 
-	UPROPERTY(EditDefaultsOnly, Category = "Ammo")
-		EWeaponType WeaponType;
+  bool CanReload() const;
+
+  UPROPERTY(EditDefaultsOnly, Category = "Ammo")
+  EWeaponType WeaponType;
 
 public:
+  UPROPERTY(EditDefaultsOnly, Category = "Ammo")
+  EWeaponAmmoType AmmoType;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Ammo")
-		EWeaponAmmoType AmmoType;
+  UFUNCTION(BlueprintCallable, Category = "Ammo")
+  EWeaponAmmoType GetAmmoType() const { return AmmoType; }
 
-	UFUNCTION(BlueprintCallable, Category = "Ammo")
-	EWeaponAmmoType GetAmmoType() const
-	{
-		return AmmoType;
-	}
+  UFUNCTION(BlueprintCallable, Category = "Ammo")
+  EWeaponType GetWeaponType() const { return WeaponType; }
 
-	UFUNCTION(BlueprintCallable, Category = "Ammo")
-	EWeaponType GetWeaponType() const
-	{
-		return WeaponType;
-	}
+  virtual void StartReload();
 
-	virtual void StartReload();
+  virtual void StopSimulateReload();
 
-	virtual void StopSimulateReload();
+  void LoadBullet();
 
-	void LoadBullet();
+  int32 GiveAmmo(int32 AddAmount);
 
-	int32 GiveAmmo(int32 AddAmount);
+  void SetAmmoCount(int32 AddAmount);
 
-	void SetAmmoCount(int32 AddAmount);
+  UFUNCTION(BlueprintCallable, Category = Ammo)
+  int32 GetCurrentAmmo() const;
 
-	UFUNCTION(BlueprintCallable, Category = Ammo)
-		int32 GetCurrentAmmo() const;
+  UFUNCTION(BlueprintCallable, Category = Ammo)
+  int32 GetCurrentAmmoInClip() const;
 
-	UFUNCTION(BlueprintCallable, Category = Ammo)
-		int32 GetCurrentAmmoInClip() const;
+  UFUNCTION(BlueprintCallable, Category = Ammo)
+  int32 GetMaxAmmo() const;
 
-	UFUNCTION(BlueprintCallable, Category = Ammo)
-		int32 GetMaxAmmo() const;
+  UFUNCTION(BlueprintCallable, Category = Ammo)
+  int32 GetMaxAmmoPerClip() const;
 
-	UFUNCTION(BlueprintCallable, Category = Ammo)
-		int32 GetMaxAmmoPerClip() const;
+  void PlaySprintAnimation();
 
-	void PlaySprintAnimation();
-
-	void StopSprintAnimation();
+  void StopSprintAnimation();
 };

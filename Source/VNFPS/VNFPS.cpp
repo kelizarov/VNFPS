@@ -2,16 +2,16 @@
 
 #include "VNFPS.h"
 
-IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, VNFPS, "VNFPS" );
+IMPLEMENT_PRIMARY_GAME_MODULE(FDefaultGameModuleImpl, VNFPS, "VNFPS");
 
-//General Log
+// General Log
 DEFINE_LOG_CATEGORY(VNLog);
 
-//Logging during game startup
+// Logging during game startup
 DEFINE_LOG_CATEGORY(VNInit);
 
-//Logging for your AI system
+// Logging for your AI system
 DEFINE_LOG_CATEGORY(VNAI);
 
-//Logging for Critical Errors that must always be addressed
+// Logging for Critical Errors that must always be addressed
 DEFINE_LOG_CATEGORY(VNCriticalErrors);

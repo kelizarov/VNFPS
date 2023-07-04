@@ -10,47 +10,42 @@ class UProjectileMovementComponent;
 class USphereComponent;
 
 UCLASS(Abstract, Blueprintable)
-class VNFPS_API AVNProjectile : public AActor
-{
-	GENERATED_BODY()
+class VNFPS_API AVNProjectile : public AActor {
+  GENERATED_BODY()
 
-	virtual void PostInitializeComponents() override;
+  virtual void PostInitializeComponents() override;
 
-
-	UFUNCTION()
-		void OnImpact(const FHitResult& Impact);
+  UFUNCTION()
+  void OnImpact(const FHitResult &Impact);
 
 private:
-	UPROPERTY(VisibleAnywhere, Category = "Projectile")
-		UProjectileMovementComponent* MoveComp;
+  UPROPERTY(VisibleAnywhere, Category = "Projectile")
+  UProjectileMovementComponent *MoveComp;
 
-	UPROPERTY(VisibleAnywhere, Category = "Projectile")
-		USphereComponent* CollisionComp;
+  UPROPERTY(VisibleAnywhere, Category = "Projectile")
+  USphereComponent *CollisionComp;
 
 protected:
+  TWeakObjectPtr<AController> MyController;
 
-	TWeakObjectPtr<AController> MyController;
+  bool bExploded;
 
-	bool bExploded;
+  void Explode(const FHitResult &Impact);
 
-	void Explode(const FHitResult& Impact);
+  void DisableAndDestroy();
 
-	void DisableAndDestroy();
-	
-public:	
-	// Sets default values for this actor's properties
-	AVNProjectile(const class FObjectInitializer& ObjectInitializer);
+public:
+  // Sets default values for this actor's properties
+  AVNProjectile(const class FObjectInitializer &ObjectInitializer);
 
-	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
-		float RadialDamage;
+  UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+  float RadialDamage;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
-		float RadialRadius;
+  UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+  float RadialRadius;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
-		TSubclassOf<UDamageType> DamageType;
+  UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+  TSubclassOf<UDamageType> DamageType;
 
-	void InitVelocity(const FVector& ShootDir);
-
-
+  void InitVelocity(const FVector &ShootDir);
 };

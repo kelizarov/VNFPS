@@ -6,35 +6,31 @@
 #include "VNPlayerController.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
-class VNFPS_API AVNPlayerController : public APlayerController
-{
-	GENERATED_BODY()
+class VNFPS_API AVNPlayerController : public APlayerController {
+  GENERATED_BODY()
 
-	AVNPlayerController(const class FObjectInitializer& ObjectInitializer);
-	
-	virtual void SetupInputComponent() override;
+  AVNPlayerController(const class FObjectInitializer &ObjectInitializer);
 
+  virtual void SetupInputComponent() override;
 
 protected:
+  UPROPERTY(EditDefaultsOnly, Category = "Camera")
+  float BaseLookUpRate;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Camera")
-		float BaseLookUpRate;
+  UPROPERTY(EditDefaultsOnly, Category = "Camera")
+  float BaseTurnRate;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Camera")
-		float BaseTurnRate;
+  UPROPERTY(EditDefaultsOnly, Category = "Camera")
+  float AccelerationFriction;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Camera")
-		float AccelerationFriction;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Camera")
-		float AccelerationFactor;
+  UPROPERTY(EditDefaultsOnly, Category = "Camera")
+  float AccelerationFactor;
 
 public:
+  virtual void LookUpRate(float Val);
 
-	virtual void LookUpRate(float Val);
-
-	virtual void TurnRate(float Val);
+  virtual void TurnRate(float Val);
 };

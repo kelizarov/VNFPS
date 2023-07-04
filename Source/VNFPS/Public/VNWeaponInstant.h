@@ -7,40 +7,37 @@
 #include "VNWeaponInstant.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
-class VNFPS_API AVNWeaponInstant : public AVNWeapon
-{
-	GENERATED_BODY()
+class VNFPS_API AVNWeaponInstant : public AVNWeapon {
+  GENERATED_BODY()
 
-	AVNWeaponInstant(const class FObjectInitializer& ObjectInitializer);
+  AVNWeaponInstant(const class FObjectInitializer &ObjectInitializer);
 
-	virtual void FireWeapon() override;
+  virtual void FireWeapon() override;
 
-	void DealDamage(const FHitResult& Impact, const FVector& ShootDir);
+  void DealDamage(const FHitResult &Impact, const FVector &ShootDir);
 
 private:
+  UPROPERTY(EditDefaultsOnly)
+  TSubclassOf<class UDamageType> DamageType;
 
-	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<class UDamageType> DamageType;
+  UPROPERTY(EditDefaultsOnly)
+  float HitDamage;
 
-	UPROPERTY(EditDefaultsOnly)
-		float HitDamage;
+  UPROPERTY(EditDefaultsOnly)
+  float WeaponRange;
 
-	UPROPERTY(EditDefaultsOnly)
-		float WeaponRange;
+  UPROPERTY(EditDefaultsOnly)
+  float AllowedViewDotHitDir;
 
-	UPROPERTY(EditDefaultsOnly)
-		float AllowedViewDotHitDir;
+  UPROPERTY(EditDefaultsOnly)
+  float ClientSideHitLeeway;
 
-	UPROPERTY(EditDefaultsOnly)
-		float ClientSideHitLeeway;
+  UPROPERTY(EditDefaultsOnly)
+  float DefaultSpreadHorizontal;
 
-	UPROPERTY(EditDefaultsOnly)
-		float DefaultSpreadHorizontal;
-
-	UPROPERTY(EditDefaultsOnly)
-		float DefaultSpreadVertical;
-	
+  UPROPERTY(EditDefaultsOnly)
+  float DefaultSpreadVertical;
 };

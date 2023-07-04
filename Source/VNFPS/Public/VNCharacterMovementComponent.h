@@ -6,14 +6,12 @@
 #include "VNCharacterMovementComponent.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
-class VNFPS_API UVNCharacterMovementComponent : public UCharacterMovementComponent
-{
-	GENERATED_BODY()
+class VNFPS_API UVNCharacterMovementComponent
+    : public UCharacterMovementComponent {
+  GENERATED_BODY()
 
-		virtual float GetMaxSpeed() const override;
-	
-	
+  virtual float GetMaxSpeed() const override;
 };

@@ -6,37 +6,34 @@
 #include "VNPlayerCameraManager.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
-class VNFPS_API AVNPlayerCameraManager : public APlayerCameraManager
-{
-	GENERATED_BODY()
+class VNFPS_API AVNPlayerCameraManager : public APlayerCameraManager {
+  GENERATED_BODY()
 
-	AVNPlayerCameraManager(const class FObjectInitializer& ObjectInitialzer);
+  AVNPlayerCameraManager(const class FObjectInitializer &ObjectInitialzer);
 
-	virtual void UpdateCamera(float DeltaTime) override;
-	
-	virtual void BeginPlay() override;
+  virtual void UpdateCamera(float DeltaTime) override;
+
+  virtual void BeginPlay() override;
 
 private:
-	bool bWasCrouched;
+  bool bWasCrouched;
 
-	float MaxCrouchZOffset;
+  float MaxCrouchZOffset;
 
-	float CrouchLerpVelocity;
+  float CrouchLerpVelocity;
 
-	float CurrentCrouchOffset;
+  float CurrentCrouchOffset;
 
-	float DefaultCameraZOffset;
+  float DefaultCameraZOffset;
 
-	bool bWasSliding;
+  bool bWasSliding;
 
-	float MaxSlideRotation;
+  float MaxSlideRotation;
 
-	float CurrentCameraSlideRotation;
+  float CurrentCameraSlideRotation;
 
-	float SlideLerpVelocity;
-
-
+  float SlideLerpVelocity;
 };
